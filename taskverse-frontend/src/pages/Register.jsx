@@ -7,28 +7,31 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
+  try {
+    const response = await fetch("http://localhost:8080/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
 
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
+    const data = await response.text(); // use .text() or .json() based on backend
 
-      alert("Registration successful. Please login.");
-      navigate("/login");
-    } catch (error) {
-      alert(error.message);
+    if (!response.ok) {
+      throw new Error(data || "Registration failed");
     }
-  };
+
+    alert("Registration successful. Please login.");
+    navigate("/login");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

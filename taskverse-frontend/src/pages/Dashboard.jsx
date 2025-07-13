@@ -15,11 +15,12 @@ const fetchTasks = async () => {
     const response = await fetch("http://localhost:8080/api/tasks", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      mode: "cors",
     });
-
+    console.log(token);
     if (response.status === 403) {
       throw new Error("Forbidden: Your session may have expired.");
     }
