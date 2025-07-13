@@ -18,10 +18,13 @@ public class Task {
     private String title;
     private String description;
     private boolean completed;
-
     private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

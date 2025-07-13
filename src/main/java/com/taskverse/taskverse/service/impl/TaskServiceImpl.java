@@ -2,9 +2,12 @@ package com.taskverse.taskverse.service.impl;
 
 import com.taskverse.taskverse.model.Task;
 import com.taskverse.taskverse.model.Project;
+import com.taskverse.taskverse.model.User;
 import com.taskverse.taskverse.repository.TaskRepository;
+import com.taskverse.taskverse.repository.UserRepository;
 import com.taskverse.taskverse.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +18,7 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Task createTask(Project project, String title, String description) {
@@ -29,6 +33,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task saveTaskForUser(Task task, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        task.setUser(user);
+        return taskRepository.save(task);
+    }
+
+    @Override
     public List<Task> getTasksByProject(Project project) {
         return taskRepository.findByProject(project);
     }
@@ -39,4 +51,10 @@ public class TaskServiceImpl implements TaskService {
         task.setCompleted(true);
         return taskRepository.save(task);
     }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
 }

@@ -9,4 +9,6 @@ public interface TaskService {
     Task createTask(Project project, String title, String description);
     List<Task> getTasksByProject(Project project);
     Task markTaskAsCompleted(Long taskId);
+    Task saveTaskForUser(Task task, String userEmail);
+    List<Task> getAllTasks();
 }

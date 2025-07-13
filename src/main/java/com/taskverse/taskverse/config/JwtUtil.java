@@ -17,13 +17,17 @@ public class JwtUtil {
     }
 
     public String generateToken(String username) {
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
+
+        System.out.println("Generated JWT Token: " + token); // 🔍 Print to console
+        return token;
     }
+
 
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
