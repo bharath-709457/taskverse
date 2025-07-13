@@ -1,11 +1,8 @@
 services:
   - type: web
     name: taskverse-backend
-    env: java
+    env: docker
     plan: free
     buildCommand: "./mvnw clean install"
     startCommand: "java -jar target/taskverse-0.0.1-SNAPSHOT.jar"
-    envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: default
     autoDeploy: true
